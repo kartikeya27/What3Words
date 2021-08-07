@@ -1,0 +1,23 @@
+{
+    "defaultCommandTimeout": 10000,
+    "pageLoadTimeout": 30000,
+    "chromeWebSecurity": false,
+    "integrationFolder": "cypress/integration/Test",
+    "screenshotsFolder": "cypress/reports/mochareports/assets",
+    "video": false,
+    "screenshotOnRunFailure": true,
+    "reporter": "cypress-multi-reporters",
+    "reporterOptions": {
+        "reporterEnabled": "mochawesome",
+        "mochawesomeReporterOptions": {
+            "reportDir": "cypress/reports/mocha",
+            "quiet": true,
+            "overwrite": false,
+            "html": false,
+            "json": true
+        }
+    },
+    "env": {
+        "url": "https://what3words.com/daring.lion.race"
+    }
+}
