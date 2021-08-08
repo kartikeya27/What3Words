@@ -1,18 +1,20 @@
 # Use the latest 2.1 version of CircleCI pipeline process engine. See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
-orbs:
-  cypress: cypress-io/cypress@1
+jobs:
+  What3words-Run:
+    docker:
+      - image: circleci/node:latest-browser
+    steps:
+      - checkout
+      - run: npm install
+      - run: npm run scripts || npm run posttest
+      - store_test_results:
+          path: cypress/reports/
+      - store_artifacts:
+          path: cypress/reports/mochareports/assets
 workflows:
-  build:
+  version: 2
+  What3words-CI:
     jobs:
-      # install dependencies first (on 1 machine)
-      - cypress/install
-      # now run tests
-      - cypress/run:
-          # give this job a custom name for clarity
-          name: 'end-to-end tests'
-          requires:
-            # use previously installed dependencies
-            # to avoid installing them on each machine running tests
-            - cypress/install
-          
+      - What3words-Run
+
