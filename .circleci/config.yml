@@ -1,10 +1,8 @@
 version: 2.1
 orbs:
-  cypress: cypress-io/cypress@1.0.0
+  cypress: cypress-io/cypress@1
 workflows:
   build:
     jobs:
-      - cypress/run:
-          executor: cypress/base-8
-          start: 'npm start' # start server before running tests
+      - cypress/run
 
