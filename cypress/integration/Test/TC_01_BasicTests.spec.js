@@ -1,5 +1,5 @@
 // <referen/ce types="Cypress" />
-import HomePage from '../../support/pageObjects/HomePage'
+import HomePage from "/Users/k-bhatt/What3words/cypress/support/pageObjects/HomePage"
 
 const homePage = new HomePage()
 
