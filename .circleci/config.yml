@@ -1,20 +1,8 @@
-# Use the latest 2.1 version of CircleCI pipeline process engine. See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
-jobs:
-  What3words-Run:
-    docker:
-      - image: circleci/node:latest-browser
-    steps:
-      - checkout
-      - run: npm install
-      - run: npm run scripts || npm run posttest
-      - store_test_results:
-          path: cypress/reports/
-      - store_artifacts:
-          path: cypress/reports/mochareports/assets
+orbs:
+  cypress: cypress-io/cypress@1
 workflows:
-  version: 2
-  What3words-CI:
+  build:
     jobs:
-      - What3words-Run
+      - cypress/run
 
