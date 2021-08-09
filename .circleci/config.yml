@@ -27,10 +27,10 @@ jobs:
           command: "npm run clean:reports"
       - run:
           name: combine-reports
-          command: "mochawesome-merge cypress/reports/mocha/*.json > cypress/reports/mochareports/report.json"        
+          command: "npm run mochawesome-merge cypress/reports/mocha/*.json > cypress/reports/mochareports/report.json"        
       - run:
           name: generate-report
-          command: "marge cypress/reports/mochareports/report.json -f report -o cypress/reports/mochareports"    
+          command: "npm run marge cypress/reports/mochareports/report.json -f report -o cypress/reports/mochareports"    
       - run:
           name: posttest
           command: "npm run combine-reports && npm run generate-report"
