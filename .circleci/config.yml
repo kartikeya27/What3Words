@@ -1,5 +1,4 @@
 version: 2
-
 jobs:
   build:
     docker:
@@ -28,7 +27,7 @@ jobs:
           command: "npm run clean:reports"
       - run:
           name: scripts
-          command: "cypress run"
+          command: "node_modules/.bin/cypress run"
       - run:
           name: combine-reports
           command: "mochawesome-merge cypress/reports/mocha/*.json > cypress/reports/mochareports/report.json"        
