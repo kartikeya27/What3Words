@@ -27,6 +27,6 @@ jobs:
           command: "npm run clean:reports"
       - run:
           name: scripts
-          command: "node_module/.bin/cypress run"
+          command: "ls -la"
       - store_test_results:
           path: cypress/reports    
