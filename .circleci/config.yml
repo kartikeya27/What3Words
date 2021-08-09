@@ -1,37 +1,57 @@
-# Orb 'cypress-io/cypress@1' resolved to 'cypress-io/cypress@1.1.0'
-version: 2
+version: 2.1
+
 jobs:
-  cypress/run:
-    docker:
-    - image: cypress/base:12.14.0
-    parallelism: 1
-    steps:
-    - checkout
-    - restore_cache:
-        keys:
-        - cache-{{ .Branch }}-{{ checksum "package.json" }}
-    - run:
-        name: Npm CI
-        command: npm ci
-    - run:
-        command: npx cypress verify
-    - save_cache:
-        key: cache-{{ .Branch }}-{{ checksum "package.json" }}
-        paths:
-        - ~/.npm
-        - ~/.cache
-    - persist_to_workspace:
-        root: ~/
-        paths:
-        - project
-        - .cache/Cypress
-    - attach_workspace:
-        at: ~/
-    - run:
-        name: Run Cypress tests
-        command: 'npx cypress run'
-workflows:
   build:
+    working_directory: ~/tmp
+    docker:
+      - image: 'cypress/base:10'
+        environment:
+          TERM: xterm
+    steps:
+      - checkout
+      - run: pwd
+      - run: ls
+      - restore_cache:
+          keys:
+            - 'v2-deps-{{ .Branch }}-{{ checksum "package-lock.json" }}'
+            - 'v2-deps-{{ .Branch }}-'
+            - v2-deps-
+      - run: npm ci
+      - save_cache:
+          key: 'v2-deps-{{ .Branch }}-{{ checksum "package-lock.json" }}'
+          paths:
+            - ~/.npm
+            - ~/.cache
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - .cache
+            - tmp
+  test:
+    working_directory: ~/tmp
+    docker:
+      - image: 'cypress/base:10'
+        environment:
+          TERM: xterm
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run: ls -la cypress
+      - run: ls -la cypress/integration
+      - run: ls -la cypress/support
+      - run:
+          name: Running cypress tests
+          command: $(npm bin)/cypress run
+      - store_artifacts:
+          path: cypress/videos
+      - store_artifacts:
+          path: cypress/screenshots
+
+workflows:
+  version: 2.1
+  build_and_test:
     jobs:
-    - cypress/run
-  version: 2
+      - build
+      - test:
+          requires:
+            - build
