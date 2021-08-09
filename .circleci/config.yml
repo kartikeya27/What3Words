@@ -26,9 +26,6 @@ jobs:
           name: pretest
           command: "npm run clean:reports"
       - run:
-          name: scripts
-          command: "node_modules/.bin/cypress run"
-      - run:
           name: combine-reports
           command: "mochawesome-merge cypress/reports/mocha/*.json > cypress/reports/mochareports/report.json"        
       - run:
@@ -39,6 +36,6 @@ jobs:
           command: "npm run combine-reports && npm run generate-report"
       - run:
           name: test
-          command: "npm run scripts || npm run posttest"
+          command: "npm run || npm run posttest"
       - store_test_results:
           path: cypress/reports    
