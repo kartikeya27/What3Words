@@ -21,6 +21,9 @@ jobs:
             - ~/.npm
             - ~/.cache
       - run:
+          name: clean:reports
+          command: "rm -R -f cypress/reports && mkdir cypress/reports && mkdir cypress/reports/mochareports"
+      - run:
           name: pretest
           command: "npm run clean:reports"
       - run:
