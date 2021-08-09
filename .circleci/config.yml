@@ -1,53 +1,38 @@
 version: 2.1
-
+orbs:
+  circleci-cli: circleci/circleci-cli@0.1.9
 jobs:
   build:
-    working_directory: ~/tmp
     docker:
-      - image: 'cypress/base:10'
-        environment:
-          TERM: xterm
+      - image: circleci/node:10
+
+    working_directory: ~/repo
+
     steps:
       - checkout
-      - run: pwd
-      - run: ls
+
+      # Download and cache dependencies
       - restore_cache:
           keys:
-            - 'v2-deps-{{ .Branch }}-{{ checksum "package-lock.json" }}'
-            - 'v2-deps-{{ .Branch }}-'
-            - v2-deps-
+            - v1-dependencies-{{ checksum "package.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
       - run: npm ci
+
       - save_cache:
-          key: 'v2-deps-{{ .Branch }}-{{ checksum "package-lock.json" }}'
           paths:
-            - ~/.npm
-            - ~/.cache
-      - persist_to_workspace:
-          root: ~/
-          paths:
-            - .cache
-            - tmp
-  test:
-    working_directory: ~/tmp
-    docker:
-      - image: 'cypress/base:10'
-        environment:
-          TERM: xterm
-    steps:
-      - attach_workspace:
-          at: ~/
-      - run: ls -la cypress
-      - run: ls -la cypress/integration
-      - run: ls -la cypress/support
-      - run:
-          name: Running cypress tests
-          command: $(npm bin)/cypress run test
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+
+      # we need to install CircleCI CLI tool
+      # to run the "manual" tests
+      - circleci-cli/install
+      - run: npm test
+      - run: npm run manual:tests
+      - run: npm run docs
 
 workflows:
-  version: 2.1
-  build_and_test:
+  orb_tests:
     jobs:
-      - build
-      - test:
-          requires:
-            - build
+    - build
