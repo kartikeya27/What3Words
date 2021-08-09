@@ -1,5 +1,5 @@
 // <referen/ce types="Cypress" />
-import HomePage from '../../support/pageObjects/HomePage'
+import HomePage from '../../support/pageObjects/HomePage.js'
 
 const homePage = new HomePage()
 
