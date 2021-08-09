@@ -21,6 +21,22 @@ jobs:
             - ~/.npm
             - ~/.cache
       - run:
-          name: Running E2E tests
-          command: npm test
-      
+          name: pretest
+          command: "npm run clean:reports"
+      - run:
+          name: scripts
+          command: "cypress run"
+      - run:
+          name: combine-reports
+          command: "mochawesome-merge cypress/reports/mocha/*.json > cypress/reports/mochareports/report.json"        
+      - run:
+          name: generate-report
+          command: "marge cypress/reports/mochareports/report.json -f report -o cypress/reports/mochareports"    
+      - run:
+          name: posttest
+          command: "npm run combine-reports && npm run generate-report"
+      - run:
+          name: test
+          command: "npm run scripts || npm run posttest"
+      - store_test_results:
+          path: cypress/reports    
