@@ -4,11 +4,6 @@
   "description": "What3words cypress based UI Automation",
   "main": "index.js",
   "scripts": {
-    "test1": "node_modules/.bin/cypress run",
-    "recordDashboardTest": "npm run test1 -- --record --key 8780049a-28b7-4817-b77a-e163f4702d05 --reporter mochawesome",
-    "singleTest": "npm run test1 -- --headed  --spec cypress/integration/Test/*",
-    "mochawesome": "npm run test1 -- --browser chrome --headed --reporter mochawesome --spec cypress/integration/Test/Framework.js",
-    "clean:reports": "rm -R -f cypress/reports && mkdir cypress/reports && mkdir cypress/reports/mochareports",
     "pretest": "npm run clean:reports",
     "scripts": "cypress run",
     "combine-reports": "mochawesome-merge cypress/reports/mocha/*.json > cypress/reports/mochareports/report.json",

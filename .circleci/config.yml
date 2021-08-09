@@ -22,5 +22,5 @@ jobs:
             - ~/.cache
       - run:
           name: Running E2E tests
-          command: npm run
+          command: npm test
       
