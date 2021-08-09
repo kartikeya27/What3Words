@@ -9,6 +9,10 @@ jobs:
           TERM: xterm
     steps:
       - checkout
+      - node/install
+      - run: node --version
+      - run: pwd
+      - run: ls -A
       - restore_cache:
           keys:
             - v2-deps-{{ .Branch }}-{{ checksum "package-lock.json" }}
@@ -27,6 +31,6 @@ jobs:
           command: "npm run clean:reports"
       - run:
           name: scripts
-          command: "cd cypress && node_module/.bin/cypress run"
+          command: "cd cypress"
       - store_test_results:
           path: cypress/reports    
