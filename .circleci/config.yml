@@ -41,11 +41,7 @@ jobs:
       - run: ls -la cypress/support
       - run:
           name: Running cypress tests
-          command: $(npm bin)/cypress run
-      - store_artifacts:
-          path: cypress/videos
-      - store_artifacts:
-          path: cypress/screenshots
+          command: $(npm bin)/cypress run test
 
 workflows:
   version: 2.1
