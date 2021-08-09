@@ -26,7 +26,7 @@ jobs:
           name: pretest
           command: "npm run clean:reports"
       - run:
-          name: test
-          command: "npm run"
+          name: scripts
+          command: "node_module/.bin/cypress run"
       - store_test_results:
           path: cypress/reports    
