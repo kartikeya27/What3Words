@@ -28,8 +28,8 @@ jobs:
       # we need to install CircleCI CLI tool
       # to run the "manual" tests
       - circleci-cli/install
-      - run: npm test
-      - run: npm run manual:tests
+      - run: npm run test
+      - run: npm run manual:test
       - run: npm run docs
 
 workflows:
